@@ -4,7 +4,7 @@ public class Video {
 
     private String idVideo;
     private String nameVideo;
-    private long modifyVideo;
+    private String modifyVideo;
     private String pathVideo;
     private boolean isVideo;
 
@@ -23,7 +23,7 @@ public class Video {
 
         private String idVideo = "";
         private String nameVideo = "";
-        private long modifyVideo = 0;
+        private String modifyVideo = "";
         private String pathVideo = "";
         private boolean isVideo = true;
 
@@ -37,7 +37,7 @@ public class Video {
             return this;
         }
 
-        public Builder setModifyVideo(long time) {
+        public Builder setModifyVideo(String time) {
             modifyVideo = time;
             return this;
         }
@@ -74,11 +74,11 @@ public class Video {
         this.nameVideo = nameVideo;
     }
 
-    public long getModifyVideo() {
+    public String getModifyVideo() {
         return modifyVideo;
     }
 
-    public void setModifyVideo(long modifyVideo) {
+    public void setModifyVideo(String modifyVideo) {
         this.modifyVideo = modifyVideo;
     }
 

@@ -1,5 +1,8 @@
 package com.example.acsim.mygallery.ui.main;
 
+//Adapter này kiểm soát quá trình đổ Fragment tương ứng với tên của Tab vào
+//ViewPager trong Main Activity.
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;

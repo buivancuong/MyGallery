@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.acsim.mygallery.R;
-import com.example.acsim.mygallery.model.Video;
+import com.example.acsim.mygallery.model.Image;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -20,31 +20,31 @@ import java.util.List;
  * hay nói cách khác, lớp này sẽ lấy danh sách image để đổ vào view (hiển thị cho người dùng)
  */
 
-public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHolder> {
+public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
 
-    private List<Video> videos;
+    private List<Image> images;
 
     private ClickListener clickListener;
 
-    public VideoAdapter () {
-        videos = new ArrayList<>();
+    public ImageAdapter () {
+        images = new ArrayList<>();
     }
 
     @NonNull
     @Override
-    public VideoViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ImageViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.custom_image, viewGroup, false);
-        return new VideoViewHolder(view);
+        return new ImageViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull VideoViewHolder imageViewHolder, int i) {
-        imageViewHolder.bindVideo(videos.get(i));
+    public void onBindViewHolder(@NonNull ImageViewHolder imageViewHolder, int i) {
+        imageViewHolder.bindImage(images.get(i));
     }
 
     @Override
     public int getItemCount() {
-        return videos != null ? videos.size() : 0;
+        return images != null ? images.size() : 0;
     }
 
     public void setClickListener (ClickListener clickListener) {
@@ -56,8 +56,8 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 //thì truyền danh sách task mới vào phương thức này, sau đó danh sách mới sẽ được
 //tự động cập nhật trên RecyclerView
 
-    public void setVideos(List<Video> videos) {
-        this.videos = videos;
+    public void setImages (List<Image> images) {
+        this.images = images;
         notifyDataSetChanged();
     }
 
@@ -66,38 +66,38 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 // Adapter, đổ dữ liệu từ model lên view và tái sử dụng lại các View đã được tạo ra,
 // làm tăng hiệu năng hoạt động của RecyclerView rất nhiều so với ListView
 
-    public class VideoViewHolder extends RecyclerView.ViewHolder {
+    public class ImageViewHolder extends RecyclerView.ViewHolder {
 
-        Video video;
-        ConstraintLayout videoItem;
-        ImageView videoViewItem;
+        Image image;
+        ConstraintLayout imageItem;
+        ImageView imageViewItem;
 
-        public VideoViewHolder(@NonNull View itemView) {
+        public ImageViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            videoItem = itemView.findViewById(R.id.imageItem);
-            videoViewItem = videoItem.findViewById(R.id.imageViewItem);
+            imageItem = itemView.findViewById(R.id.imageItem);
+            imageViewItem = imageItem.findViewById(R.id.imageViewItem);
         }
 
-        public void bindVideo (final Video video) {
-            this.video = this.video;
+        public void bindImage (final Image image) {
+            this.image = image;
 
-            Picasso.with(itemView.getContext()).load(video.getPathVideo()).into(videoViewItem);
+            Picasso.with(itemView.getContext()).load(image.getPathImage()).into(imageViewItem);
 
-            videoItem.setOnClickListener(new View.OnClickListener() {
+            imageItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (clickListener != null) {
-                        clickListener.onImageItemClick(video);
+                        clickListener.onImageItemClick(image);
                     }
                 }
             });
 
-            videoItem.setOnLongClickListener(new View.OnLongClickListener() {
+            imageItem.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
                     if (clickListener != null) {
-                        clickListener.onImageItemLongClick(video);
+                        clickListener.onImageItemLongClick(image);
                     }
                     return false;
                 }
@@ -107,8 +107,8 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
     }
 
     public interface ClickListener {
-        void onImageItemClick (Video video);
-        void onImageItemLongClick (Video video);
+        void onImageItemClick (Image image);
+        void onImageItemLongClick (Image image);
     }
 
 }

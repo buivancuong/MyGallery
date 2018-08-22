@@ -1,13 +1,11 @@
 package com.example.acsim.mygallery.model;
 
-import java.util.ArrayList;
-
 public class Album {
 
     private String idAlbum;
     private String nameAlbum;
-    private ArrayList<Image> listImage;
-    private ArrayList<Video> listVideo;
+    private String modifyAlbum;
+    private String pathAlbum;
 
     public Album (){
     }
@@ -15,16 +13,16 @@ public class Album {
     private Album(Builder builder) {
         this.idAlbum = builder.idAlbum;
         this.nameAlbum = builder.nameAlbum;
-        this.listImage = builder.listImage;
-        this.listVideo = builder.listVideo;
+        this.modifyAlbum = builder.modifyAlbum;
+        this.pathAlbum = builder.pathAlbum;
     }
 
     public static class Builder {
 
         private String idAlbum = "";
         private String nameAlbum = "";
-        private ArrayList<Image> listImage = new ArrayList<>();
-        private ArrayList<Video> listVideo = new ArrayList<>();
+        private String modifyAlbum = "";
+        private String pathAlbum = "";
 
         public Builder setIDAlbum(String id) {
             idAlbum = id;
@@ -36,13 +34,13 @@ public class Album {
             return this;
         }
 
-        public Builder setListImage (ArrayList<Image> listImg) {
-            listImage = listImg;
+        public Builder setModifyAlbum (String modify) {
+            modifyAlbum = modify;
             return this;
         }
 
-        public Builder setListVideo (ArrayList<Video> listVd) {
-            listVideo = listVd;
+        public Builder setPathAlbum (String path) {
+            pathAlbum = path;
             return this;
         }
 
@@ -68,19 +66,19 @@ public class Album {
         this.nameAlbum = nameAlbum;
     }
 
-    public ArrayList<Image> getListImage() {
-        return listImage;
+    public String getModifyAlbum() {
+        return modifyAlbum;
     }
 
-    public void setListImage(ArrayList<Image> listImage) {
-        this.listImage = listImage;
+    public void setModifyAlbum(String modifyAlbum) {
+        this.modifyAlbum = modifyAlbum;
     }
 
-    public ArrayList<Video> getListVideo() {
-        return listVideo;
+    public String getPathAlbum() {
+        return pathAlbum;
     }
 
-    public void setListVideo(ArrayList<Video> listVideo) {
-        this.listVideo = listVideo;
+    public void setPathAlbum(String pathAlbum) {
+        this.pathAlbum = pathAlbum;
     }
 }

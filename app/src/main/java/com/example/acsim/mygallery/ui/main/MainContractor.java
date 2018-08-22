@@ -1,5 +1,10 @@
 package com.example.acsim.mygallery.ui.main;
 
+//Đây là Interface khái quát tất cả các hoạt động của Main Activity; bao gồm 1 View đại diện
+//cho tầng hiển thị dữ liệu (UI) và 1 Presenter làm cầu nối điều phối các hoạt động giao vận
+//dữ liệu giữa UI và DB. Presenter cũng là nơi thực hiện các logic để điều phối hoạt động được
+//UI nhận vào.
+
 import com.example.acsim.mygallery.model.Album;
 import com.example.acsim.mygallery.model.Image;
 import com.example.acsim.mygallery.model.Video;

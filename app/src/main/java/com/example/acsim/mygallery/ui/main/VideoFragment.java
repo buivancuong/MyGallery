@@ -1,13 +1,15 @@
 package com.example.acsim.mygallery.ui.main;
 
-import android.content.ContentResolver;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.net.Uri;
+//Đây là Fragment chứa danh sách các tệp tin hình ảnh có trong thiết bị.
+//Thumbnail của tất cả các tệp hình ảnh trong thiết bị sẽ được đổ vào Recycler View của Fragment
+//này thông qua ImageAdapter là 1 adapter lấy dữ liệu từ 1 thành phần hình ảnh, đổ vào
+//Recycler View trong Fragment này.
+
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +18,8 @@ import com.example.acsim.mygallery.R;
 
 public class VideoFragment extends android.support.v4.app.Fragment {
 
-    Uri videoUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+    RecyclerView videoFragmentRecycleView;
+    VideoAdapter videoAdapter;
 
     @Nullable
     @Override
@@ -24,19 +27,11 @@ public class VideoFragment extends android.support.v4.app.Fragment {
 
         View view = inflater.inflate(R.layout.video_fragment, container, false);
 
-        ContentResolver videoContentResolver = getActivity().getContentResolver();
-        Cursor videoCursor = videoContentResolver.query(videoUri, null, null, null, null);
-        videoCursor.moveToFirst();
-
-        while (!videoCursor.isAfterLast()) {
-
-            String pathVideo = videoCursor.getString(videoCursor.getColumnIndex(MediaStore.Video.Media.DATA));
-            String nameVideo = videoCursor.getString(videoCursor.getColumnIndex(MediaStore.Video.Media.DISPLAY_NAME));
-
-            long idVideo = videoCursor.getColumnIndex(MediaStore.Video.Media._ID);
-            Bitmap videoBitmap = MediaStore.Video.Thumbnails.getThumbnail(videoContentResolver, idVideo, MediaStore.Video.Thumbnails.MINI_KIND, null);
-
-        }
+        videoFragmentRecycleView = view.findViewById(R.id.mainVideoFragmentRecyclerView);
+        videoAdapter = new VideoAdapter();
+        videoFragmentRecycleView.setAdapter(videoAdapter);
+        assert container != null;
+        videoFragmentRecycleView.setLayoutManager(new GridLayoutManager(container.getContext(), 2));
 
         return view;
     }

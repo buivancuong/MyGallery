@@ -1,10 +1,16 @@
 package com.example.acsim.mygallery.model;
 
+//Đây là class đại diện cho 1 hình ảnh cụ thể. Do Gallery chỉ sử dụng dữ liệu trực tiếp từ thiết
+//bị, nên class này chỉ lưu trữ các String là các đường dẫn đến tệp media, không lưu thông tin
+//bitmap của tệp hình ảnh cũng như thumbnail của nó. Sử dụng Builder Pattern để có thêm tùy chọn
+//tạo hình ảnh trong quá trình code.
+
+
 public class Image {
 
     private String idImage;
     private String nameImage;
-    private long modifyImage;
+    private String modifyImage;
     private String pathImage;
     private boolean isImage;
 
@@ -23,7 +29,7 @@ public class Image {
 
         private String idImage = "";
         private String nameImage = "";
-        private long modifyImage = 0;
+        private String modifyImage = "";
         private String pathImage = "";
         private boolean isImage = true;
 
@@ -37,7 +43,7 @@ public class Image {
             return this;
         }
 
-        public Builder setModifyImage (long time) {
+        public Builder setModifyImage (String time) {
             modifyImage = time;
             return this;
         }
@@ -74,11 +80,11 @@ public class Image {
         this.nameImage = nameImage;
     }
 
-    public long getModifyImage() {
+    public String getModifyImage() {
         return modifyImage;
     }
 
-    public void setModifyImage(long modifyImage) {
+    public void setModifyImage(String modifyImage) {
         this.modifyImage = modifyImage;
     }
 

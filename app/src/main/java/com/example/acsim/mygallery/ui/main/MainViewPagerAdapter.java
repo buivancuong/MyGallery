@@ -7,6 +7,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.example.acsim.mygallery.ui.main.image.ImageFragment;
+import com.example.acsim.mygallery.ui.main.video.VideoFragment;
+
 public class MainViewPagerAdapter extends FragmentStatePagerAdapter {
     MainViewPagerAdapter(FragmentManager fm) {
         super(fm);

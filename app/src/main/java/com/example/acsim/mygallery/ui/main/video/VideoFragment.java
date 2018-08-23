@@ -1,4 +1,4 @@
-package com.example.acsim.mygallery.ui.main;
+package com.example.acsim.mygallery.ui.main.video;
 
 //Đây là Fragment chứa danh sách các tệp tin hình ảnh có trong thiết bị.
 //Thumbnail của tất cả các tệp hình ảnh trong thiết bị sẽ được đổ vào Recycler View của Fragment

@@ -16,6 +16,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import com.example.acsim.mygallery.model.Image;
 
@@ -55,7 +56,11 @@ public class ImageRepo implements ImageRepository {
             image.setNameImage(imageCursor.getString(imageCursor.getColumnIndex(MediaStore.Images.Media.DISPLAY_NAME)));
             image.setModifyImage(imageCursor.getString(imageCursor.getColumnIndex(MediaStore.Images.Media.DATE_MODIFIED)));
             image.setImage(true);
-            image.setPathImage(imageCursor.getString(imageCursor.getColumnIndex(String.valueOf(MediaStore.Images.Media.EXTERNAL_CONTENT_URI))));
+            image.setPathImage(imageCursor.getString(imageCursor.getColumnIndex(String.valueOf(MediaStore.Images.Media.DATA))));
+            Log.i("ID: ", image.getIdImage());
+            Log.i("Name: ", image.getNameImage());
+            Log.i("Modify: ", image.getModifyImage());
+            Log.i("Path: ", image.getPathImage());
             listImage.add(image);
         }
         return listImage;

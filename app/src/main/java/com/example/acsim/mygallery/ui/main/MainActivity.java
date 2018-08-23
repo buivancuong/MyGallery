@@ -1,5 +1,7 @@
 package com.example.acsim.mygallery.ui.main;
 
+//Runtime Permission
+
 //Main Activity sẽ chứa 1 ViewPager được kết nối tương tác với các Tab để chuyển đổi qua lại
 //giữa các Fragment trong ViewPager.
 //ViewPager chứa các Fragment là một thành phần chứa trong nó nội dung của các tệp tin media có
@@ -7,23 +9,33 @@ package com.example.acsim.mygallery.ui.main;
 //Để đổ dữ liệu từ các Fragment vào ViewPager để hiển thị lên Main Activity, ta cần sử dụng
 // MainViewPagerAdapter là 1 adapter lấy dữ liệu từ các Fragment tương ứng.
 
-import android.app.ActionBar;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 
 import com.example.acsim.mygallery.R;
+import com.example.acsim.mygallery.data.ImageRepo;
+import com.example.acsim.mygallery.data.VideoRepo;
 import com.example.acsim.mygallery.model.Album;
 import com.example.acsim.mygallery.model.Image;
 import com.example.acsim.mygallery.model.Video;
+import com.example.acsim.mygallery.ui.main.image.ImageFragment;
+import com.example.acsim.mygallery.ui.main.video.VideoFragment;
 
-import java.util.List;
+public class MainActivity extends AppCompatActivity implements MainContractor.View, ClickListener {
 
-public class MainActivity extends FragmentActivity implements MainContractor.View, ImageAdapter.ClickListener, VideoAdapter.ClickListener {
-
-    ActionBar mainActionBar;
+    MainPresenter mainPresenter;
+    TabLayout mainTabLayout;
     String tabItem[] = {"Image", "Video", "Album"};
+
+    ImageFragment imageFragment;
+    VideoFragment videoFragment;
+    AlbumFragment albumFragment;
 
     ViewPager mainViewPager;
     MainViewPagerAdapter mainViewPagerAdapter;
@@ -33,90 +45,72 @@ public class MainActivity extends FragmentActivity implements MainContractor.Vie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mainActionBar = getActionBar();
-        assert mainActionBar != null;
-        mainActionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
+        mainTabLayout = findViewById(R.id.mainTabLayout);
         mainViewPager = findViewById(R.id.mainViewPager);
         mainViewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager());
         mainViewPager.setAdapter(mainViewPagerAdapter);
 
-        mainViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int i, float v, int i1) {
+        mainTabLayout.setupWithViewPager(mainViewPager);
 
-            }
+        imageFragment = new ImageFragment();
+        videoFragment = new VideoFragment();
+        albumFragment = new AlbumFragment();
 
-            @Override
-            public void onPageSelected(int position) {
+        mainPresenter = new MainPresenter(ImageRepo.getInstance(this), VideoRepo.getInstance(this),this);
+        mainPresenter.getImageList();
+        mainPresenter.getVideoList();
+        mainPresenter.getAlbumList();
 
-                getActionBar().setSelectedNavigationItem(position);
+    }
 
-            }
+    @Override
+    public void itemClick(Object object) {
+        if (object instanceof Image) {
+            Image image = (Image) object;
+        } else if (object instanceof Video) {
+            Video video = (Video) object;
+        } else {
+            Album album = (Album) object;
+        }
+    }
 
-            @Override
-            public void onPageScrollStateChanged(int i) {
+    @Override
+    public void longClick(Object object) {
 
-            }
-        });
+    }
 
-        ActionBar.TabListener tabListener = new ActionBar.TabListener() {
-            @Override
-            public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+    public class MainViewPagerAdapter extends FragmentPagerAdapter {
 
-                mainViewPager.setCurrentItem(tab.getPosition());
-
-            }
-
-            @Override
-            public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-
-            }
-
-            @Override
-            public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-
-            }
-        };
-
-        for (String aTabItem : tabItem) {
-            mainActionBar.addTab(mainActionBar.newTab().setText(aTabItem).setTabListener(tabListener));
+        public MainViewPagerAdapter(FragmentManager fm) {
+            super(fm);
         }
 
+        @Nullable
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return tabItem[position];
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0: {
+                    return imageFragment;
+                }
+                case 1: {
+                    return videoFragment;
+                }
+                default: {
+                    return albumFragment;
+                }
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return 3;
+        }
     }
 
-    @Override
-    public void showImageList(List<Image> images) {
 
-    }
-
-    @Override
-    public void showVideoList(List<Video> videos) {
-
-    }
-
-    @Override
-    public void showAlbumList(List<Album> albums) {
-
-    }
-
-    @Override
-    public void onImageItemClick(Image image) {
-
-    }
-
-    @Override
-    public void onImageItemLongClick(Image image) {
-
-    }
-
-    @Override
-    public void onImageItemClick(Video video) {
-
-    }
-
-    @Override
-    public void onImageItemLongClick(Video video) {
-
-    }
 }

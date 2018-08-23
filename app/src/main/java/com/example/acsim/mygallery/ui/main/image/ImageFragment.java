@@ -1,4 +1,4 @@
-package com.example.acsim.mygallery.ui.main;
+package com.example.acsim.mygallery.ui.main.image;
 
 //Đây là Fragment chứa danh sách các tệp tin hình ảnh có trong thiết bị.
 //Thumbnail của tất cả các tệp hình ảnh trong thiết bị sẽ được đổ vào Recycler View của Fragment
@@ -15,11 +15,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.acsim.mygallery.R;
+import com.example.acsim.mygallery.model.Image;
+import com.example.acsim.mygallery.ui.main.ClickListener;
 
-public class ImageFragment extends android.support.v4.app.Fragment {
+import java.util.List;
+
+public class ImageFragment extends android.support.v4.app.Fragment implements ImageAdapter.ClickListener, ImageFragmentContractor.ImageFragmentView {
 
     RecyclerView imageFragmentRecycleView;
     ImageAdapter imageAdapter;
+    ClickListener clickListener;
 
     @Nullable
     @Override
@@ -29,10 +34,30 @@ public class ImageFragment extends android.support.v4.app.Fragment {
 
         imageFragmentRecycleView = view.findViewById(R.id.mainImageFragmentRecyclerView);
         imageAdapter = new ImageAdapter();
+        imageAdapter.setClickListener(this);
         imageFragmentRecycleView.setAdapter(imageAdapter);
         assert container != null;
-        imageFragmentRecycleView.setLayoutManager(new GridLayoutManager(container.getContext(), 4));
+        imageFragmentRecycleView.setLayoutManager(new GridLayoutManager(getActivity(), 4));
 
         return view;
+    }
+
+    @Override
+    public void onImageItemClick(Image image) {
+        if (clickListener != null) {
+            clickListener.itemClick(image);
+        }
+    }
+
+    @Override
+    public void onImageItemLongClick(Image image) {
+        if (clickListener != null) {
+            clickListener.longClick(image);
+        }
+    }
+
+    @Override
+    public void showImageList(List<Image> images) {
+        imageAdapter.setImages(images);
     }
 }

@@ -15,11 +15,11 @@ public interface MainContractor {
 
     interface View {
 
-        void showImageList (List<Image> images);
-
-        void showVideoList (List<Video> videos);
-
-        void showAlbumList (List<Album> albums);
+//        void showImageList (List<Image> images);
+//
+//        void showVideoList (List<Video> videos);
+//
+//        void showAlbumList (List<Album> albums);
 
     }
 

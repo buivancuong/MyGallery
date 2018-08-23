@@ -1,11 +1,14 @@
 package com.example.acsim.mygallery.model;
 
+import java.util.List;
+
 public class Album {
 
     private String idAlbum;
     private String nameAlbum;
     private String modifyAlbum;
     private String pathAlbum;
+    private List<Object> mediaAlbum;
 
     public Album (){
     }

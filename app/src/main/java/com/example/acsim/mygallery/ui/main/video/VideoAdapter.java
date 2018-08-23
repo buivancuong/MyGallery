@@ -1,4 +1,4 @@
-package com.example.acsim.mygallery.ui.main;
+package com.example.acsim.mygallery.ui.main.video;
 
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;

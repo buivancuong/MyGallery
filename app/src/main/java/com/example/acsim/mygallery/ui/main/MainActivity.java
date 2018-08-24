@@ -9,12 +9,17 @@ package com.example.acsim.mygallery.ui.main;
 //Để đổ dữ liệu từ các Fragment vào ViewPager để hiển thị lên Main Activity, ta cần sử dụng
 // MainViewPagerAdapter là 1 adapter lấy dữ liệu từ các Fragment tương ứng.
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
@@ -44,6 +49,14 @@ public class MainActivity extends AppCompatActivity implements MainContractor.Vi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                // Không làm gì cả
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+            }
+        } else {}
 
         mainTabLayout = findViewById(R.id.mainTabLayout);
         mainViewPager = findViewById(R.id.mainViewPager);
@@ -110,7 +123,17 @@ public class MainActivity extends AppCompatActivity implements MainContractor.Vi
         public int getCount() {
             return 3;
         }
+
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == 1) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
+            }
+        } else {
+
+        }
+    }
 }

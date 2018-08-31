@@ -1,8 +1,10 @@
 package com.example.acsim.mygallery.ui.main.image;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +26,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
     private List<Image> images;
 
-    private ClickListener clickListener;
+    private ImageClickListener imageClickListener;
 
     public ImageAdapter () {
         images = new ArrayList<>();
@@ -47,8 +49,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         return images != null ? images.size() : 0;
     }
 
-    public void setClickListener (ClickListener clickListener) {
-        this.clickListener = clickListener;
+    public void setImageClickListener(ImageClickListener imageClickListener) {
+        this.imageClickListener = imageClickListener;
     }
 
 //Phương thức này để cập nhật danh sách image trên view
@@ -82,13 +84,15 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         public void bindImage (final Image image) {
             this.image = image;
 
-            Picasso.with(itemView.getContext()).load(image.getPathImage()).into(imageViewItem);
+//            Picasso.with(itemView.getContext()).load(Uri.parse(image.getPathImage())).into(imageViewItem);
+//            Log.i("Picasso", "using Picasso to load image from: " + image.getPathImage());
+            imageViewItem.setImageURI(Uri.parse(image.getPathImage()));
 
             imageItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (clickListener != null) {
-                        clickListener.onImageItemClick(image);
+                    if (imageClickListener != null) {
+                        imageClickListener.onImageItemClick(image);
                     }
                 }
             });
@@ -96,8 +100,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
             imageItem.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    if (clickListener != null) {
-                        clickListener.onImageItemLongClick(image);
+                    if (imageClickListener != null) {
+                        imageClickListener.onImageItemLongClick(image);
                     }
                     return false;
                 }
@@ -106,7 +110,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
     }
 
-    public interface ClickListener {
+    public interface ImageClickListener {
         void onImageItemClick (Image image);
         void onImageItemLongClick (Image image);
     }

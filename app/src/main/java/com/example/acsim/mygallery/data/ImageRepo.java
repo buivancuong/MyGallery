@@ -13,7 +13,6 @@ import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -46,7 +45,7 @@ public class ImageRepo implements ImageRepository {
     @Override
     public List<Image> getAllImage() {
         ContentResolver imageContentResolver = this.context.getContentResolver();
-        Cursor imageCursor = imageContentResolver.query(imageUri, null, null, null, null);
+        @SuppressLint("Recycle") Cursor imageCursor = imageContentResolver.query(imageUri, null, null, null, null);
         assert imageCursor != null;
         imageCursor.moveToFirst();
         List<Image> listImage = new ArrayList<>();
@@ -57,10 +56,10 @@ public class ImageRepo implements ImageRepository {
             image.setModifyImage(imageCursor.getString(imageCursor.getColumnIndex(MediaStore.Images.Media.DATE_MODIFIED)));
             image.setImage(true);
             image.setPathImage(imageCursor.getString(imageCursor.getColumnIndex(String.valueOf(MediaStore.Images.Media.DATA))));
-            Log.i("ID: ", image.getIdImage());
-            Log.i("Name: ", image.getNameImage());
-            Log.i("Modify: ", image.getModifyImage());
-            Log.i("Path: ", image.getPathImage());
+            Log.i("ID là", image.getIdImage());
+            Log.i("Name là", image.getNameImage());
+            Log.i("Modify là", image.getModifyImage());
+            Log.i("Path là", image.getPathImage());
             listImage.add(image);
         }
         return listImage;
@@ -69,7 +68,7 @@ public class ImageRepo implements ImageRepository {
     @Override
     public Image getImage(String idImage) {
         ContentResolver imageContentResolver = this.context.getContentResolver();
-        Cursor imageCursor = imageContentResolver.query(imageUri, null, "WHERE ID =", new String[]{idImage}, null);
+        @SuppressLint("Recycle") Cursor imageCursor = imageContentResolver.query(imageUri, null, "WHERE ID =", new String[]{idImage}, null);
         Image image = new Image();
         assert imageCursor != null;
         image.setPathImage(imageCursor.getString(imageCursor.getColumnIndex(String.valueOf(MediaStore.Images.Media.DATA))));
@@ -88,7 +87,7 @@ public class ImageRepo implements ImageRepository {
     @Override
     public void delImage(String idImage) {
         ContentResolver imageContentResolver = this.context.getContentResolver();
-        Cursor imageCursor = imageContentResolver.query(imageUri, null, "WHERE ID =", new String[]{idImage}, null);
+        @SuppressLint("Recycle") Cursor imageCursor = imageContentResolver.query(imageUri, null, "WHERE ID =", new String[]{idImage}, null);
         assert imageCursor != null;
         imageContentResolver.delete((Uri) imageCursor, idImage, null);
         getAllImage();

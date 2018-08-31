@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import com.example.acsim.mygallery.model.Video;
 
@@ -20,6 +22,8 @@ public class VideoRepo implements VideoRepository {
 
     private Uri videoUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
 
+    private VideoRepo(){};
+
     private VideoRepo(Context context) {
         this.context = context;
     }
@@ -27,6 +31,13 @@ public class VideoRepo implements VideoRepository {
     public static VideoRepo getInstance (Context context) {
         if (instance == null) {
             instance = new VideoRepo(context);
+        }
+        return instance;
+    }
+
+    public static VideoRepo getInstance () {
+        if (instance == null) {
+            instance = new VideoRepo();
         }
         return instance;
     }
@@ -45,6 +56,10 @@ public class VideoRepo implements VideoRepository {
             video.setNameVideo(videoCursor.getString(videoCursor.getColumnIndex(MediaStore.Video.Media.DISPLAY_NAME)));
             video.setVideo(true);
             video.setPathVideo(videoCursor.getString(videoCursor.getColumnIndex(String.valueOf(MediaStore.Video.Media.DATA))));
+            Log.i("ID video là", video.getIdVideo());
+            Log.i("Name video là", video.getNameVideo());
+            Log.i("Modify video là", video.getModifyVideo());
+            Log.i("Path video là", video.getPathVideo());
             listVideo.add(video);
         }
 
@@ -69,8 +84,10 @@ public class VideoRepo implements VideoRepository {
     @Override
     public void delVideo(String idVideo) {
         ContentResolver videoContentResolver = this.context.getContentResolver();
-        Cursor videoCursor = videoContentResolver.query(videoUri, null, "WHERE ID =", new String[]{idVideo}, null);
+        @SuppressLint("Recycle") Cursor videoCursor = videoContentResolver.query(videoUri, null, "WHERE ID =", new String[]{idVideo}, null);
+        assert videoCursor != null;
         videoContentResolver.delete((Uri) videoCursor, idVideo, null);
         getAllVideo();
     }
+
 }

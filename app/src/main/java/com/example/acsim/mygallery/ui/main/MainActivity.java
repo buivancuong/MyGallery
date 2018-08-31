@@ -24,17 +24,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.acsim.mygallery.R;
-import com.example.acsim.mygallery.data.ImageRepo;
-import com.example.acsim.mygallery.data.VideoRepo;
-import com.example.acsim.mygallery.model.Album;
-import com.example.acsim.mygallery.model.Image;
-import com.example.acsim.mygallery.model.Video;
 import com.example.acsim.mygallery.ui.main.image.ImageFragment;
 import com.example.acsim.mygallery.ui.main.video.VideoFragment;
 
-public class MainActivity extends AppCompatActivity implements MainContractor.View, ClickListener {
+public class MainActivity extends AppCompatActivity {
 
-    MainPresenter mainPresenter;
     TabLayout mainTabLayout;
     String tabItem[] = {"Image", "Video", "Album"};
 
@@ -60,41 +54,31 @@ public class MainActivity extends AppCompatActivity implements MainContractor.Vi
 
         mainTabLayout = findViewById(R.id.mainTabLayout);
         mainViewPager = findViewById(R.id.mainViewPager);
-        mainViewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager());
-        mainViewPager.setAdapter(mainViewPagerAdapter);
-
-        mainTabLayout.setupWithViewPager(mainViewPager);
 
         imageFragment = new ImageFragment();
         videoFragment = new VideoFragment();
         albumFragment = new AlbumFragment();
 
-        mainPresenter = new MainPresenter(ImageRepo.getInstance(this), VideoRepo.getInstance(this),this);
-        mainPresenter.getImageList();
-        mainPresenter.getVideoList();
-        mainPresenter.getAlbumList();
+        mainViewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager());
+        mainViewPager.setAdapter(mainViewPagerAdapter);
+        mainTabLayout.setupWithViewPager(mainViewPager);
 
     }
 
-    @Override
-    public void itemClick(Object object) {
-        if (object instanceof Image) {
-            Image image = (Image) object;
-        } else if (object instanceof Video) {
-            Video video = (Video) object;
-        } else {
-            Album album = (Album) object;
-        }
-    }
-
-    @Override
-    public void longClick(Object object) {
-
-    }
+//    @Override
+//    public void itemClick(Object object) {
+//        if (object instanceof Image) {
+//            Image image = (Image) object;
+//        } else if (object instanceof Video) {
+//            Video video = (Video) object;
+//        } else {
+//            Album album = (Album) object;
+//        }
+//    }
 
     public class MainViewPagerAdapter extends FragmentPagerAdapter {
 
-        public MainViewPagerAdapter(FragmentManager fm) {
+        MainViewPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 

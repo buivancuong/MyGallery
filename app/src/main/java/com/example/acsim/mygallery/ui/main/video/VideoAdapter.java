@@ -1,5 +1,7 @@
 package com.example.acsim.mygallery.ui.main.video;
 
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -8,7 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.load.model.stream.MediaStoreVideoThumbLoader;
 import com.example.acsim.mygallery.R;
+import com.example.acsim.mygallery.data.VideoRepo;
 import com.example.acsim.mygallery.model.Video;
 import com.squareup.picasso.Picasso;
 
@@ -24,7 +28,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 
     private List<Video> videos;
 
-    private ClickListener clickListener;
+    private VideoClickListener videoClickListener;
 
     public VideoAdapter () {
         videos = new ArrayList<>();
@@ -33,13 +37,13 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
     @NonNull
     @Override
     public VideoViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.custom_image, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.custom_video, viewGroup, false);
         return new VideoViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull VideoViewHolder imageViewHolder, int i) {
-        imageViewHolder.bindVideo(videos.get(i));
+    public void onBindViewHolder(@NonNull VideoViewHolder videoViewHolder, int i) {
+        videoViewHolder.bindVideo(videos.get(i));
     }
 
     @Override
@@ -47,8 +51,8 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         return videos != null ? videos.size() : 0;
     }
 
-    public void setClickListener (ClickListener clickListener) {
-        this.clickListener = clickListener;
+    public void setVideoClickListener(VideoClickListener videoClickListener) {
+        this.videoClickListener = videoClickListener;
     }
 
 //Phương thức này để cập nhật danh sách image trên view
@@ -75,20 +79,23 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         public VideoViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            videoItem = itemView.findViewById(R.id.imageItem);
-            videoViewItem = videoItem.findViewById(R.id.imageViewItem);
+            videoItem = itemView.findViewById(R.id.videoItem);
+            videoViewItem = videoItem.findViewById(R.id.videoThumbnail);
         }
 
         public void bindVideo (final Video video) {
-            this.video = this.video;
+            this.video = video;
 
-            Picasso.with(itemView.getContext()).load(video.getPathVideo()).into(videoViewItem);
+//            Picasso.with(itemView.getContext()).load(video.getPathVideo()).into(videoViewItem);
+
+            videoViewItem.setImageURI(Uri.parse(video.getPathVideo()));
+            videoViewItem.setImageBitmap(VideoRepo.getInstance().);
 
             videoItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (clickListener != null) {
-                        clickListener.onImageItemClick(video);
+                    if (videoClickListener != null) {
+                        videoClickListener.onVideoItemClick(video);
                     }
                 }
             });
@@ -96,8 +103,8 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
             videoItem.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    if (clickListener != null) {
-                        clickListener.onImageItemLongClick(video);
+                    if (videoClickListener != null) {
+                        videoClickListener.onVideoItemLongClick(video);
                     }
                     return false;
                 }
@@ -106,9 +113,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 
     }
 
-    public interface ClickListener {
-        void onImageItemClick (Video video);
-        void onImageItemLongClick (Video video);
+    public interface VideoClickListener {
+        void onVideoItemClick(Video video);
+        void onVideoItemLongClick(Video video);
     }
 
 }

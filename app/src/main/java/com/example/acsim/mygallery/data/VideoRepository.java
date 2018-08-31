@@ -1,5 +1,7 @@
 package com.example.acsim.mygallery.data;
 
+import android.graphics.Bitmap;
+
 import com.example.acsim.mygallery.model.Video;
 
 import java.util.List;

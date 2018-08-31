@@ -12,6 +12,8 @@ public interface ImageFragmentContractor {
 
     interface ImageFragmentPresenter{
         void getImageList();
+        Image getImage(String idImage);
+        void delImage(List<String> idImage);
     }
 
 }
